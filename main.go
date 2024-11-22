@@ -42,10 +42,8 @@ func main() {
 
 	router := mux.NewRouter()
 
-	// Serve static files
 	router.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	
-	// Serve index.html for the root path
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "static/index.html")
 	})
@@ -57,7 +55,7 @@ func main() {
 	router.HandleFunc("/users/{id}", updateUser).Methods("PUT")
 	router.HandleFunc("/users/{id}", deleteUser).Methods("DELETE")
 
-	// Enable CORS
+	// CORS
 	router.Use(corsMiddleware)
 
 	log.Println("Server starting on port 8080...")
